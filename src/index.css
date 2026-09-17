@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — SINGLE SOURCE OF TRUTH for color, font, radius,
+   and shadow. See /DESIGN.md before adding or changing a value
+   here. Spacing uses Tailwind's default scale as-is (see doc).
+   ============================================================ */
+@theme {
+  /* Neutral (light surfaces) */
+  --color-bg: #ffffff;
+  --color-bg-alt: #f4f4f5;
+  --color-surface: #ffffff;
+  --color-border: #e2e2e5;
+  --color-text: #1a1a1a;
+  --color-text-muted: #55555a;
+
+  /* Ink (dark surfaces — footer, announcement bar) */
+  --color-ink: #17171a;
+  --color-ink-border: #2c2c31;
+  --color-ink-text: #d4d4d8;
+  --color-ink-text-muted: #8a8a90;
+
+  /* Brand accent — placeholder pending final construction theme */
+  --color-accent: #e07a1f;
+  --color-accent-dark: #b8630f;
+  --color-accent-soft: #fdf1e4;
+
+  /* Semantic */
+  --color-danger: #b42323;
+  --color-danger-soft: #fdeaea;
+
+  /* Typography */
+  --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius (overrides Tailwind defaults so rounded-sm/md/lg match our scale) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Shadow */
+  --shadow-card: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-bg text-text font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+}

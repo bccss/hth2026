@@ -29,7 +29,16 @@ export default function SectionHeader({
           {eyebrow}
         </p>
       )}
-      <h2 className={`mb-4 text-3xl font-bold tracking-tight sm:text-4xl ${titleClasses}`}>{title}</h2>
+      {/* Same treatment as the Tracks heading: bold uppercase display type
+          with a hazard-tape rule underneath, for one consistent heading
+          style across every section. */}
+      <h2 className={`text-5xl font-bold uppercase tracking-wide sm:text-6xl ${titleClasses}`}>{title}</h2>
+      <div
+        aria-hidden="true"
+        className={`mt-4 h-1.5 w-20 bg-[repeating-linear-gradient(45deg,var(--color-caution),var(--color-caution)_8px,var(--color-ink)_8px,var(--color-ink)_16px)] ${
+          lead ? 'mb-4' : ''
+        } ${align === 'center' ? 'mx-auto' : ''}`}
+      />
       {lead && <p className={`${align === 'center' ? 'mx-auto ' : ''}${leadClasses}`}>{lead}</p>}
     </div>
   )

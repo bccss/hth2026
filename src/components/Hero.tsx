@@ -4,6 +4,7 @@ import { MapPin } from '@phosphor-icons/react'
 import Button from './ui/Button'
 import { useCountdown } from '../hooks/useCountdown'
 import { crane, cloud1, cloud2, cloud4 } from '../assets/about'
+import { APPLY_FORM_URL } from '../data/content'
 
 const countdownUnits = ['Days', 'Hours', 'Minutes', 'Seconds'] as const
 
@@ -72,13 +73,16 @@ export default function Hero() {
           The wrapper clips to the crane's own aspect ratio halved, so only
           the top half (cab, jib, hook) shows in the Hero — the mast/base
           would only reappear if you scroll it into About's skyline. */}
-      <div
+      <motion.div
         aria-hidden="true"
+        initial={reduce ? false : { opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: reduce ? 0 : 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="pointer-events-none absolute right-[15%] top-0 hidden w-[34%] overflow-hidden lg:block"
         style={{ aspectRatio: '124 / 225.5' }}
       >
         <img src={crane} alt="" className="block w-full opacity-95" />
-      </div>
+      </motion.div>
 
       <div className="relative z-10 mx-auto grid max-w-[1140px] items-start gap-12 lg:grid-cols-[1.1fr_1fr]">
         {/* Left: message */}
@@ -88,7 +92,7 @@ export default function Hero() {
             className="mb-4 flex items-center justify-center gap-2 font-heading text-sm font-bold uppercase tracking-widest text-accent lg:justify-start"
           >
             <MapPin weight="bold" className="h-4 w-4" />
-            Boston College · Oct 24-25, 2026 (TBC)
+            Boston College · Oct 24-25, 2026
           </motion.p>
 
           <motion.h1 {...fadeUp(1)} className="mb-4 text-5xl font-bold tracking-tighter sm:text-6xl lg:text-7xl">
@@ -101,8 +105,8 @@ export default function Hero() {
           </motion.p>
 
           <motion.div {...fadeUp(3)} className="flex flex-wrap justify-center gap-4 lg:justify-start">
-            <Button href="#apply" size="lg">
-              Apply Now
+            <Button href={APPLY_FORM_URL} target="_blank" rel="noopener noreferrer" size="lg">
+              Apply
             </Button>
             <Button href="#about" size="lg" variant="secondary">
               Learn More
@@ -115,7 +119,7 @@ export default function Hero() {
           initial={reduce ? false : { opacity: 0, y: 20, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, delay: reduce ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mx-auto w-full max-w-sm overflow-hidden rounded-lg border-2 border-dashed border-ink-border bg-ink p-8 text-ink-text shadow-card lg:ml-[38%] lg:mt-[40%]"
+          className="relative mx-auto w-full max-w-sm overflow-hidden rounded-lg border-2 border-dashed border-ink-border bg-ink p-8 text-ink-text shadow-card transition-[border-color,box-shadow] duration-300 hover:border-neon-blue/40 hover:shadow-[0_0_24px_rgba(79,216,255,0.25)] lg:ml-[38%] lg:mt-[40%]"
         >
           {/* Blueprint grid, drawn in cyan lines on the ink (blueprint navy)
               fill. backgroundSize is a percent of the card's own box (not a
@@ -146,7 +150,7 @@ export default function Hero() {
               Countdown
             </span>
             <span className="rounded-full bg-caution px-3 py-1 text-xs font-bold text-caution-ink">
-              No. 2026
+              11th Annual Hack The Heights
             </span>
           </div>
 

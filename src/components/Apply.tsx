@@ -1,11 +1,12 @@
 import { CheckCircle } from '@phosphor-icons/react'
 import Button from './ui/Button'
 import SectionHeader from './ui/SectionHeader'
-import building from '../assets/illustrations/building.svg'
+import { excavator } from '../assets/about'
+import { APPLY_FORM_URL } from '../data/content'
 
 const checklist = [
-  'Free to attend, meals, snacks, swag, and prizes included',
-  'Open to all Boston College students, any major or year',
+  'Free to attend, food, snacks, swag, and prizes included',
+  'Open to all students, any major or year',
   'No experience required, beginners welcome',
 ]
 
@@ -17,33 +18,46 @@ export default function Apply() {
           align="left"
           className="mx-auto text-center lg:mx-0 lg:text-left"
           title="Ready to Build?"
-          lead="Applications for Hack the Heights 2026 open soon. Sign up for the newsletter to be the first to know."
         />
 
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           <img
-            src={building}
-            alt="Illustration of a building under construction"
+            src={excavator}
+            alt="Illustration of an excavator"
             className="mx-auto w-full max-w-xs lg:order-2 lg:max-w-sm"
           />
 
-          <div className="relative mx-auto w-full max-w-[480px] rounded-md border-2 border-dashed border-border bg-white p-10 text-center lg:order-1 lg:mx-0 lg:text-left">
-            <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-bold uppercase tracking-wide text-caution-ink lg:left-8 lg:translate-x-0">
-              Applications open Fall 2026
-            </span>
-            <ul className="mb-8 inline-block space-y-3 text-left">
+          {/* Same blueprint treatment as the Tracks cards — dark ink panel,
+              cyan grid fill, dashed border, drafting crop marks — instead of
+              a plain white card. Wider than before so each checklist line
+              fits on one row instead of wrapping. */}
+          <div className="relative mx-auto w-full max-w-[600px] rounded-lg border-2 border-dashed border-ink-border bg-ink p-10 text-center text-ink-text lg:order-1 lg:mx-0 lg:text-left">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 overflow-hidden rounded-lg opacity-20"
+              style={{
+                backgroundImage:
+                  'linear-gradient(var(--color-blueprint-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-blueprint-line) 1px, transparent 1px)',
+                backgroundSize: '8% 8%',
+              }}
+            />
+            <span aria-hidden="true" className="pointer-events-none absolute left-3 top-3 h-3 w-3 border-l-2 border-t-2 border-blueprint-line/70" />
+            <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 h-3 w-3 border-r-2 border-t-2 border-blueprint-line/70" />
+            <span aria-hidden="true" className="pointer-events-none absolute bottom-3 left-3 h-3 w-3 border-b-2 border-l-2 border-blueprint-line/70" />
+            <span aria-hidden="true" className="pointer-events-none absolute bottom-3 right-3 h-3 w-3 border-b-2 border-r-2 border-blueprint-line/70" />
+
+            <ul className="relative mb-8 inline-block space-y-3 text-left">
               {checklist.map((item) => (
                 <li key={item} className="flex items-start gap-2">
-                  <CheckCircle weight="fill" className="mt-0.5 h-5 w-5 flex-shrink-0 text-accent" />
+                  <CheckCircle weight="fill" className="mt-0.5 h-5 w-5 flex-shrink-0 text-caution" />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
-            <div>
-              <Button size="lg" disabled>
+            <div className="relative">
+              <Button href={APPLY_FORM_URL} target="_blank" rel="noopener noreferrer" size="lg">
                 Apply Now
               </Button>
-              <p className="mt-3 text-sm text-text-muted">The application form isn't live yet, check back this fall.</p>
             </div>
           </div>
         </div>

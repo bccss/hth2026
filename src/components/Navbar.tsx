@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Button from './ui/Button'
 import { useActiveSection } from '../hooks/useActiveSection'
+import { scrollToHash } from '../utils/scrollToHash'
+import { APPLY_FORM_URL } from '../data/content'
 
 const links = [
   { href: '#about', label: 'About' },
@@ -26,16 +28,12 @@ export default function Navbar() {
 
       <div className="flex h-16 items-center justify-between bg-ink px-6">
         <div className="mx-auto flex w-full max-w-[1140px] items-center justify-between">
-          {/*
-            [SVG PLACEHOLDER] logo-mark.svg — this roof glyph is a simple
-            geometric stand-in, not the real HTH wordmark/logo. Swap it (and
-            the matching mark in Footer.tsx) once one is designed.
-          */}
-          <a href="#top" className="flex items-center gap-2 font-heading text-xl font-black tracking-tight text-caution">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-6 w-6">
-              <path d="M4 21V9l8-6 8 6v12" strokeLinejoin="round" />
-              <path d="M9 21v-6h6v6" />
-            </svg>
+          <a
+            href="#top"
+            onClick={(e) => scrollToHash(e, '#top')}
+            className="flex items-center gap-2 font-heading text-xl font-black tracking-tight text-caution"
+          >
+            <img src="/bccss_transparent.png" alt="BCCSS" className="h-7 w-auto" />
             <span>HTH26</span>
           </a>
 
@@ -44,6 +42,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => scrollToHash(e, link.href)}
                 className={`border-b-2 pb-2 pt-2 font-semibold text-sm transition-colors ${
                   active === link.href.slice(1)
                     ? 'border-caution text-caution'
@@ -56,7 +55,14 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <Button href="#apply" size="sm" className="hidden sm:inline-block">
+            <Button
+              href={APPLY_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="sm"
+              variant="bright"
+              className="hidden sm:inline-block"
+            >
               Apply
             </Button>
             <button
@@ -81,11 +87,26 @@ export default function Navbar() {
       {open && (
         <nav className="absolute inset-x-0 top-20 flex flex-col gap-4 border-b border-ink-border bg-ink px-6 py-4 md:hidden">
           {links.map((link) => (
-            <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="font-semibold text-caution/70 hover:text-caution">
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={(e) => {
+                scrollToHash(e, link.href)
+                setOpen(false)
+              }}
+              className="font-semibold text-caution/70 hover:text-caution"
+            >
               {link.label}
             </a>
           ))}
-          <Button href="#apply" size="sm" onClick={() => setOpen(false)}>
+          <Button
+            href={APPLY_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            size="sm"
+            variant="bright"
+            onClick={() => setOpen(false)}
+          >
             Apply
           </Button>
         </nav>

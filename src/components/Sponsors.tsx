@@ -1,4 +1,4 @@
-import { Envelope, InstagramLogo, Star } from '@phosphor-icons/react'
+import { InstagramLogo, Star } from '@phosphor-icons/react'
 import Button from './ui/Button'
 import Card from './ui/Card'
 import SectionHeader from './ui/SectionHeader'
@@ -8,10 +8,20 @@ import { sponsorTiers } from '../data/content'
 
 export default function Sponsors() {
   return (
-    <section id="sponsors" className="px-6 py-20">
-      <div className="mx-auto max-w-[1140px]">
+    <section id="sponsors" className="relative overflow-hidden px-6 py-20">
+      {/* Blueprint grid backdrop, same faint treatment as Tracks */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            'linear-gradient(var(--color-ink) 1px, transparent 1px), linear-gradient(90deg, var(--color-ink) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1140px]">
         <SectionHeader
-          eyebrow="Sponsors"
           title="Become a Sponsor"
           lead="Sponsoring Hack the Heights connects your team with purpose-driven Boston College students passionate about social impact and innovation."
         />
@@ -50,12 +60,7 @@ export default function Sponsors() {
           <h3 className="mb-2 text-2xl font-bold">Ready to Make a Difference?</h3>
           <p className="mb-6 text-ink-text-muted">For sponsorship info, reach out today.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button href="mailto:hackheights@bc.edu?subject=HTH 2026 Sponsorship Inquiry">
-              <span className="inline-flex items-center gap-2">
-                <Envelope weight="fill" className="h-4 w-4" />
-                Email Us
-              </span>
-            </Button>
+            <Button href="mailto:hackheights@bc.edu?subject=HTH 2026 Sponsorship Inquiry">Email Us</Button>
             <a
               href="https://www.instagram.com/bccssociety/"
               target="_blank"

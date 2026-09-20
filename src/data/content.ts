@@ -7,6 +7,10 @@
 // emoji or raw SVG — add a new entry there before referencing a new key here.
 import type { IconKey } from '../components/ui/icons'
 
+// Placeholder destination for every "Apply" button/link on the site until
+// the real 2026 application form exists — swap this one constant when it does.
+export const APPLY_FORM_URL = 'https://forms.google.com'
+
 export interface Stat {
   icon: IconKey
   number: string
@@ -87,7 +91,7 @@ export interface Track {
 }
 
 export const tracks: Track[] = [
-  { icon: 'toolbox', title: 'Open Innovation', description: "Have an idea that doesn't fit elsewhere? Build anything you want, the sky's the limit." },
+  { icon: 'toolbox', title: 'Main Track', description: "Have an idea that doesn't fit elsewhere? Build anything you want, the sky's the limit." },
   { icon: 'graduation-cap', title: 'Rookie Track', description: 'For first-time hackers, with extra mentorship and a dedicated prize category. No experience needed.' },
 ]
 
@@ -151,17 +155,13 @@ export const faqCategories: { key: 'all' | FaqCategory; label: string }[] = [
 
 export const faqs: Faq[] = [
   { category: 'general', question: 'Who can participate in Hack the Heights?', answer: 'HTH is open to all Boston College students regardless of major, year, or coding experience! We especially encourage beginners: many of our past winners were first-time hackers.' },
-  { category: 'general', question: 'Do I need to know how to code to participate?', answer: 'Not at all! We have workshops for beginners, mentors to help you learn, and many projects need designers, business minds, and creative thinkers.' },
-  { category: 'registration', question: 'How do I register for the event?', answer: 'Registration opens ~6 weeks before the event. Sign up for our newsletter to get notified when applications go live. We typically fill up quickly, so register early!' },
+  { category: 'general', question: 'Do I need to know how to code?', answer: 'Not at all! We have workshops for beginners, mentors to help you learn, and many projects need designers, business minds, and creative thinkers.' },
   { category: 'registration', question: 'Do I need a team before the event?', answer: 'No! Many participants come solo and form teams during our team formation session on Day 1. Teams can be 1-4 people.' },
   { category: 'registration', question: 'Is there a registration fee?', answer: 'Hack the Heights is completely FREE! We provide all meals, snacks, swag, and prizes. Just bring your laptop, creativity, and enthusiasm!' },
   { category: 'event', question: 'What should I bring?', answer: 'Your laptop, chargers, any hardware you want to use, comfortable clothes, toiletries, and a sleeping bag if you plan to stay overnight.' },
   { category: 'event', question: 'Where do I sleep during the 24 hours?', answer: 'We have designated quiet spaces for rest with couches and floor space. Many hackers power through, but we encourage taking breaks!' },
-  { category: 'event', question: 'What kind of food is provided?', answer: 'We provide all meals and snacks throughout the 24 hours. We accommodate dietary restrictions, just let us know when you register!' },
   { category: 'technical', question: 'Can I start coding before the event?', answer: 'No, all code must be written during the 24-hour period. You can brainstorm ideas and research APIs beforehand. Come with ideas, not code!' },
-  { category: 'technical', question: 'What languages/tools can I use?', answer: "Any programming language, framework, or tool is allowed! We'll have workshops on popular technologies too." },
   { category: 'technical', question: 'How are projects judged?', answer: 'Projects are judged on creativity, technical implementation, potential impact, and presentation quality across multiple prize categories.' },
-  { category: 'technical', question: 'What if I have a question during the event?', answer: 'We have mentors available 24/7 during the hackathon, plus our organizing team is always around to help!' },
 ]
 
 export interface SponsorTier {

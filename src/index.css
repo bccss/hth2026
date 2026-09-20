@@ -44,6 +44,10 @@
      marks only. A lighter, more cyan step than --color-ink-border. */
   --color-blueprint-line: #3d6a94;
 
+  /* Neon blue — the countdown card's hover-only border glow. Decorative
+     interaction feedback only, never a second brand accent. */
+  --color-neon-blue: #4fd8ff;
+
   /* Steel — the "By the Numbers" stat tiles' brushed-plate treatment.
      Matches the metal tones already used in the building illustrations
      (src/assets/about/). Decorative only, never used on text/links. */

@@ -6,28 +6,55 @@
    here. Spacing uses Tailwind's default scale as-is (see doc).
    ============================================================ */
 @theme {
-  /* Neutral (light surfaces) */
-  --color-bg: #ffffff;
-  --color-bg-alt: #f4f4f5;
+  /* Neutral (concrete) */
+  --color-bg: #f5f5f3;
+  --color-bg-alt: #eaeae6;
   --color-surface: #ffffff;
-  --color-border: #e2e2e5;
-  --color-text: #1a1a1a;
-  --color-text-muted: #55555a;
+  --color-border: #d9d9d3;
+  --color-text: #14181d;
+  --color-text-muted: #5c6169;
 
-  /* Ink (dark surfaces — footer, announcement bar) */
-  --color-ink: #17171a;
-  --color-ink-border: #2c2c31;
-  --color-ink-text: #d4d4d8;
-  --color-ink-text-muted: #8a8a90;
+  /* Ink (blueprint navy — dark surfaces: footer, announcement bar, dark bento tiles) */
+  --color-ink: #0d1a2b;
+  --color-ink-border: #223349;
+  --color-ink-text: #cfd8e3;
+  --color-ink-text-muted: #8996a9;
 
-  /* Brand accent — placeholder pending final construction theme */
-  --color-accent: #e07a1f;
-  --color-accent-dark: #b8630f;
-  --color-accent-soft: #fdf1e4;
+  /* Brand accent — construction gold. The ONE interactive color: buttons,
+     links, active states. Site-wide black-and-yellow scheme, matching the
+     navbar; dark enough to still read as text on light backgrounds. */
+  --color-accent: #a6790a;
+  --color-accent-dark: #7a5907;
+  --color-accent-soft: #f7e8c9;
+
+  /* Caution yellow — hazard-tape motif + rare structural highlight only. Never interactive. */
+  --color-caution: #ffc93c;
+  --color-caution-ink: #3a2c04;
 
   /* Semantic */
-  --color-danger: #b42323;
-  --color-danger-soft: #fdeaea;
+  --color-danger: #c22e2e;
+  --color-danger-soft: #fbe9e9;
+
+  /* Sky — decorative backdrop only, for the Hero/About construction-skyline
+     illustration (src/assets/about/). Not a UI color; never used on text,
+     buttons, or borders. */
+  --color-sky: #d7e9f2;
+
+  /* Blueprint line — the countdown card's blueprint-diagram grid and crop
+     marks only. A lighter, more cyan step than --color-ink-border. */
+  --color-blueprint-line: #3d6a94;
+
+  /* Steel — the "By the Numbers" stat tiles' brushed-plate treatment.
+     Matches the metal tones already used in the building illustrations
+     (src/assets/about/). Decorative only, never used on text/links. */
+  --color-steel-dark: #2b2e31;
+  --color-steel: #5a5a5a;
+  --color-steel-light: #d1d3d5;
+
+  /* Wood — the Tracks cards' plank treatment. Decorative only. */
+  --color-wood: #8a5a34;
+  --color-wood-dark: #5c3a1e;
+  --color-wood-light: #c69760;
 
   /* Typography */
   --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
@@ -38,8 +65,41 @@
   --radius-md: 12px;
   --radius-lg: 16px;
 
-  /* Shadow */
-  --shadow-card: 0 12px 24px rgba(0, 0, 0, 0.08);
+  /* Shadow — tinted toward ink, never pure black */
+  --shadow-card: 0 12px 24px rgba(13, 26, 43, 0.1);
+}
+
+/* Cloud drift — slow horizontal wander for the About-section sky clouds.
+   prefers-reduced-motion freezes this via the global rule below. */
+@keyframes cloud-drift {
+  from {
+    transform: translateX(-4%);
+  }
+  to {
+    transform: translateX(4%);
+  }
+}
+
+/* Cloud marquee — Hero clouds drift continuously all the way off one edge
+   of the section and back on from the other. Animates `left` (not
+   `transform`) so the percentages resolve against the section's width,
+   not the cloud's own small width. prefers-reduced-motion freezes this
+   via the global rule below. */
+@keyframes cloud-drift-right {
+  from {
+    left: -20%;
+  }
+  to {
+    left: 115%;
+  }
+}
+@keyframes cloud-drift-left {
+  from {
+    left: 115%;
+  }
+  to {
+    left: -20%;
+  }
 }
 
 @layer base {
@@ -51,5 +111,43 @@
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-bold;
+  }
+
+  /* Anchor-scroll offset — the navbar is sticky (h-16 content + two h-2
+     tape strips = 80px total), so without this, jumping to any #section
+     anchor (nav links, "Learn More", footer links, ...) lands with the
+     section's top hidden behind the navbar instead of right below it. */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* Custom scrollbar — caution yellow on ink, matching the site's
+     black-and-yellow scheme instead of the browser default. */
+  html {
+    scrollbar-color: var(--color-caution) var(--color-ink);
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-caution);
+    border: 3px solid var(--color-ink);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

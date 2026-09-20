@@ -21,14 +21,12 @@ just assembles every section in order.
 | `src/data/content.ts` | All placeholder copy — stats, FAQ, schedule, tracks, sponsor tiers, testimonials. Add/edit content here, not inline in a component. |
 | `src/App.tsx` | Assembles every section in the locked page order. Don't reorder without checking with the team — nav highlighting and in-page anchors depend on it. |
 
-## Status: this is a *starting point*, not the final construction theme
+## Status: construction theme is locked
 
-Colors and fonts below are locked as the **system everyone builds against right
-now** — consistent placeholder values, not yet the final construction branding
-(safety orange / caution yellow / blueprint navy / concrete gray). When the real
-theme is decided, only the `@theme` block in `src/index.css` changes — because
-every component reads from it via Tailwind utilities, the whole site updates in
-one place. Don't wait on that decision to start building sections.
+Colors and fonts below are the **real theme**, not a placeholder: safety
+orange, caution yellow, blueprint navy, and concrete gray. Every component
+reads them via Tailwind utilities, so any further tuning still only touches
+the `@theme` block in `src/index.css`.
 
 ---
 
@@ -38,24 +36,27 @@ All color tokens are defined once, in `src/index.css`:
 
 ```css
 @theme {
-  --color-bg: #ffffff;
-  --color-bg-alt: #f4f4f5;
+  --color-bg: #f5f5f3;
+  --color-bg-alt: #eaeae6;
   --color-surface: #ffffff;
-  --color-border: #e2e2e5;
-  --color-text: #1a1a1a;
-  --color-text-muted: #55555a;
+  --color-border: #d9d9d3;
+  --color-text: #14181d;
+  --color-text-muted: #5c6169;
 
-  --color-ink: #17171a;
-  --color-ink-border: #2c2c31;
-  --color-ink-text: #d4d4d8;
-  --color-ink-text-muted: #8a8a90;
+  --color-ink: #0d1a2b;
+  --color-ink-border: #223349;
+  --color-ink-text: #cfd8e3;
+  --color-ink-text-muted: #8996a9;
 
-  --color-accent: #e07a1f;
-  --color-accent-dark: #b8630f;
-  --color-accent-soft: #fdf1e4;
+  --color-accent: #ff5a1f;
+  --color-accent-dark: #d6420e;
+  --color-accent-soft: #ffece2;
 
-  --color-danger: #b42323;
-  --color-danger-soft: #fdeaea;
+  --color-caution: #ffc93c;
+  --color-caution-ink: #3a2c04;
+
+  --color-danger: #c22e2e;
+  --color-danger-soft: #fbe9e9;
 }
 ```
 
@@ -65,10 +66,11 @@ Each `--color-X` token generates Tailwind utilities for that name: `bg-X`,
 
 | Token → utility prefix | Usage |
 |---|---|
-| `bg` / `bg-alt` / `surface` / `border` | Page background, alt section background, card surfaces, borders |
+| `bg` / `bg-alt` / `surface` / `border` | Page background (concrete gray), alt section background, card surfaces, borders |
 | `text` / `text-muted` | Primary text, secondary/body copy |
-| `ink` / `ink-border` / `ink-text` / `ink-text-muted` | Dark surfaces only — footer, announcement bar |
-| `accent` / `accent-dark` / `accent-soft` | Buttons, links, active states, pill backgrounds — **placeholder, swap when theme is final** |
+| `ink` / `ink-border` / `ink-text` / `ink-text-muted` | Dark surfaces only — footer, announcement bar, dark bento tiles |
+| `accent` / `accent-dark` / `accent-soft` | The ONE interactive color (safety orange) — buttons, links, active states, icon badges. Never mix in a second interactive color. |
+| `caution` / `caution-ink` | Caution yellow — the hazard-tape divider and rare structural highlights only. Never used for interactive elements. |
 | `danger` / `danger-soft` | "Required" pill only |
 
 Pure white/black text (e.g. on the accent button, on the dark footer heading)
@@ -89,8 +91,8 @@ to `font-heading font-bold` (see the `@layer base` block in `src/index.css`), so
 you mostly only need `font-heading` explicitly on things like buttons, nav links,
 and tab labels that aren't literal headings.
 
-Both fonts are a **starting point** — easy to swap for something more
-construction-themed later without touching a single component.
+Space Grotesk's technical, blueprint-adjacent letterforms already fit the
+construction theme, so both fonts are locked, not placeholders.
 
 For sizing, use Tailwind's default type scale (`text-sm`, `text-lg`, `text-2xl`,
 etc.) directly — no custom scale needed, the defaults already cover everything
@@ -182,15 +184,24 @@ Reuse these instead of writing new ones for the same job — all in `src/compone
 
 - **`SectionHeader`** — the `eyebrow` → `title` (h2) → `lead` pattern used at the
   top of every section.
-- **`Card`** — base card (`hover` lift/border/shadow by default); pass
-  `highlight` for a dashed-border callout variant (see the About mission
-  statement).
+- **`Card`** — base card, static by default (no hover). Pass `interactive`
+  only when the card represents a real choice (a sponsor tier), for a single
+  subtle lift + border-color hover — never add hover motion to a card with
+  nothing to click. Pass `highlight` for a dashed-border callout variant.
 - **`Button`** — `variant`: `primary` / `secondary` / `outline`; `size`: `sm` /
-  `md` / `lg`. Renders an `<a>` when given `href`, otherwise a `<button>`.
+  `md` / `lg`. Renders an `<a>` when given `href`, otherwise a `<button>`. Pass
+  `disabled` for a CTA that has nothing to link to yet (e.g. a form that
+  isn't live) — renders a muted, non-interactive state instead of a dead
+  link. Never ship an `href="#"` or a placeholder URL as if it were live.
 - **`Pill`** — small badge/tag; `variant`: `accent` / `neutral` / `danger`. Used
   for schedule time/type pills, track prize tags, the "Required" tag.
 - **`SectionDivider`** — the caution-tape strip between sections; pass `alt` for
   the faded variant.
+- **`ToggleGroup`** — the pill-toggle control used for the schedule day switcher
+  and FAQ category filter; generic over any string union of keys.
+- **`Reveal`** — wraps a block in a fade/rise-on-scroll entrance (Motion,
+  `whileInView`, respects `prefers-reduced-motion`). Use for grid/list items;
+  pass `index` so siblings stagger.
 
 For layout, reach for Tailwind's `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
 gap-6` pattern directly (used throughout for card grids) rather than inventing a
@@ -198,13 +209,57 @@ new grid wrapper.
 
 ---
 
-## SVG / icon placeholders
+## Icons
 
-Not part of this design lock — icons are still emoji stand-ins pending the
-construction theme. The full asset list (logo, mascot, section icons, dividers)
-is documented as a comment in `index.html` and inline near each placeholder
-(search for `[SVG PLACEHOLDER]` across `src/`). Don't design new one-off icon
-styles; wait for that asset pass.
+All icons come from `@phosphor-icons/react` (`duotone` weight by default),
+never emoji or hand-drawn SVG paths. Content-driven icons (stats, features,
+tracks, schedule) are referenced by key from `src/data/content.ts` and
+resolved through `src/components/ui/icons.tsx` (`ContentIcon`, `iconMap`,
+`IconKey`) — add a new entry there before referencing a new key in content
+data. One-off icons used directly in a component (nav logo mark, CTA icons)
+import straight from `@phosphor-icons/react`.
+
+The hero's "build permit" mascot placeholder was replaced with a graphic
+device (the permit card + countdown) rather than a fake illustration. A real
+BC-eagle-in-a-hard-hat mascot illustration is a good follow-up asset once
+someone can produce or generate one; it wasn't fabricated here.
+
+## Illustrations
+
+`src/assets/illustrations/` holds real, MIT-licensed SVG illustrations from
+[unDraw](https://undraw.co) (via the [cuuupid/undraw-illustrations](https://github.com/cuuupid/undraw-illustrations)
+mirror — MIT licensed, no attribution required), recolored from unDraw's
+default purple to the site's accent/caution tokens. `building_blocks.svg` (two
+people building a wall) is used in the About mission block; `building.svg` (a
+building under a sun) is used in Apply. If you add another, recolor its `#6c63ff`
+fills to `#ff5a1f` (and any secondary accent colors to `#ffc93c`) before
+committing it — never ship unDraw's default purple.
+
+## Metadata
+
+`index.html` carries the favicon (`public/favicon.svg`), meta description,
+theme-color, and OpenGraph/Twitter tags. There's deliberately no `og:image`
+yet — that needs a real 1200x630 designed asset, not a placeholder. Add one
+and wire up `og:image` / `twitter:image` before the site is actually shared
+publicly.
+
+## Where a real asset would upgrade a placeholder
+
+Everywhere the site is still standing in for an asset that doesn't exist
+yet, it's marked `[SVG PLACEHOLDER]` in a comment at the spot — grep for
+that string across `src/` to find all of them. Current list:
+
+| Spot | File | What it needs |
+|---|---|---|
+| Hero corner watermark | `Hero.tsx` (the `Crane` icon) | BC-eagle-in-a-hard-hat mascot mark, same low-opacity corner treatment |
+| Nav + footer logo | `Navbar.tsx`, `Footer.tsx` | Real HTH wordmark/logo (currently a hand-drawn roof glyph stand-in) |
+| Sponsor logo wall | `Sponsors.tsx` | Each sponsor's real brand SVG/PNG, one per empty dashed tile |
+| Social share card | `index.html` (`og:image`) | A real 1200×630 designed card, not a screenshot or a solid color |
+| Student testimonial photos | `About.tsx` (Student Stories) | Real headshots only, with permission — never a generic avatar icon; see the comment there for the exact layout to add |
+| Speaker cards | `About.tsx` (currently a one-line teaser) | Once names are confirmed: real headshots, swap the teaser for a 3-col card grid using the existing `speakers` array in `content.ts` |
+
+Two illustrations are already real and in place (see **Illustrations**
+above) — this list is what's still outstanding, not what's missing overall.
 
 ---
 

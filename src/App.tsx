@@ -1,4 +1,3 @@
-import AnnouncementBar from './components/AnnouncementBar'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -13,18 +12,17 @@ import SectionDivider from './components/ui/SectionDivider'
 export default function App() {
   return (
     <div id="top">
-      <AnnouncementBar />
       <Navbar />
 
       <main>
         <Hero />
         <SectionDivider />
         <About />
-        <SectionDivider alt />
+        <SectionDivider />
         <Tracks />
         <SectionDivider />
         <Schedule />
-        <SectionDivider alt />
+        <SectionDivider />
         <Faq />
         <SectionDivider />
         <Sponsors />

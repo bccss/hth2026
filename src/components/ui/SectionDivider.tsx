@@ -3,16 +3,13 @@ interface SectionDividerProps {
   alt?: boolean
 }
 
-/**
- * [SVG PLACEHOLDER] pattern-tape.svg — real caution-tape art can replace
- * this CSS repeating-gradient once construction theme assets land.
- */
+/** Hazard-tape strip between sections — the recurring construction-theme motif. */
 export default function SectionDivider({ alt = false }: SectionDividerProps) {
   return (
     <div
       aria-hidden="true"
-      className={`h-3.5 bg-[repeating-linear-gradient(45deg,var(--color-accent),var(--color-accent)_14px,var(--color-ink)_14px,var(--color-ink)_28px)] ${
-        alt ? 'opacity-35' : 'opacity-85'
+      className={`h-3 bg-[repeating-linear-gradient(45deg,var(--color-caution),var(--color-caution)_16px,var(--color-ink)_16px,var(--color-ink)_32px)] ${
+        alt ? 'opacity-40' : 'opacity-90'
       }`}
     />
   )

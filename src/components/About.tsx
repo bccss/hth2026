@@ -1,103 +1,88 @@
-import Card from './ui/Card'
 import SectionHeader from './ui/SectionHeader'
-import { aboutFeatures, specialFeatures, speakers, stats, testimonials } from '../data/content'
+import Reveal from './ui/Reveal'
+import { ContentIcon } from './ui/icons'
+import { stats } from '../data/content'
+import { cloud1, cloud2, cloud3, cloud4 } from '../assets/about'
 
 export default function About() {
   return (
-    <section id="about" className="px-6 py-20">
-      <div className="mx-auto max-w-[1140px]">
+    <section id="about" className="relative overflow-hidden px-6 py-20">
+      {/*
+        The construction site — sky fills the whole section and resolves
+        into the skyline pinned at the very bottom. Clouds drift slowly
+        throughout (see @keyframes cloud-drift in index.css); the global
+        prefers-reduced-motion rule there freezes them.
+      */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{ background: 'linear-gradient(to bottom, var(--color-sky), var(--color-bg) 85%)' }}
+      />
+
+      {/* Clouds — sized in percent (not px) so they scale fluidly with the viewport */}
+      <img
+        src={cloud2}
+        aria-hidden="true"
+        alt=""
+        className="pointer-events-none absolute left-[6%] top-[4%] w-[7%] opacity-50 animate-[cloud-drift_32s_ease-in-out_infinite_alternate]"
+      />
+      <img
+        src={cloud1}
+        aria-hidden="true"
+        alt=""
+        className="pointer-events-none absolute right-[10%] top-[16%] hidden w-[6%] opacity-40 animate-[cloud-drift_26s_ease-in-out_infinite_alternate] sm:block"
+      />
+      <img
+        src={cloud3}
+        aria-hidden="true"
+        alt=""
+        className="pointer-events-none absolute left-[16%] top-[32%] w-[6%] opacity-40 animate-[cloud-drift_38s_ease-in-out_infinite_alternate]"
+      />
+      <img
+        src={cloud4}
+        aria-hidden="true"
+        alt=""
+        className="pointer-events-none absolute right-[14%] top-[48%] hidden w-[7%] opacity-35 animate-[cloud-drift_34s_ease-in-out_infinite_alternate] lg:block"
+      />
+      <img
+        src={cloud1}
+        aria-hidden="true"
+        alt=""
+        className="pointer-events-none absolute left-[10%] top-[65%] hidden w-[6%] opacity-35 animate-[cloud-drift_30s_ease-in-out_infinite_alternate] md:block"
+      />
+      <img
+        src={cloud2}
+        aria-hidden="true"
+        alt=""
+        className="pointer-events-none absolute right-[8%] top-[82%] hidden w-[7%] opacity-30 animate-[cloud-drift_36s_ease-in-out_infinite_alternate] lg:block"
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1140px]">
         <SectionHeader
-          eyebrow="About"
           title="What is Hack the Heights?"
-          lead={
-            <>
-              Boston College's annual hackathon where innovation meets community. This 24-hour
-              coding marathon brings together creative minds to build tech solutions, learn new
-              skills, and collaborate on impactful projects. Placeholder copy — adapt for the 2026
-              construction theme (e.g. "building the future, one block at a time").
-            </>
-          }
+          lead="Boston College's annual 24-hour hackathon, exclusively for BC students. Bring an idea, a laptop, and curiosity: over 40% of our hackers are first-timers, and mentors plus hands-on workshops from industry pros make sure nobody's stuck. Leave with a shipped project, a new team, and a shot at $15K+ in prizes, recruiter connections, and accelerator spots."
         />
 
-        <Card highlight className="mb-12">
-          <h3 className="mb-3 text-xl font-bold">Our Mission</h3>
-          <p className="text-text-muted">
-            Hack the Heights exists to democratize innovation at Boston College. We believe great
-            ideas can come from anyone, regardless of background or experience level. Our
-            hackathon is a judgment-free zone where students can experiment, learn, fail, and
-            succeed together. <em>(Placeholder — reuse or rewrite for 2026.)</em>
-          </p>
-        </Card>
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {aboutFeatures.map((f) => (
-            <Card key={f.title}>
-              <div className="mb-4 text-3xl">{f.icon}</div>
-              <h3 className="mb-2 text-lg font-bold">{f.title}</h3>
-              <p className="text-text-muted">{f.description}</p>
-            </Card>
-          ))}
-        </div>
-
-        <h3 className="my-12 text-center text-2xl font-bold">By the Numbers</h3>
-        <div className="grid grid-cols-2 gap-6 text-center sm:grid-cols-3 lg:grid-cols-6">
-          {stats.map((s) => (
-            <div key={s.label} className="rounded-md bg-bg-alt p-6">
-              <div className="mb-2 text-2xl">{s.icon}</div>
-              <div className="font-heading text-2xl font-bold text-accent">{s.number}</div>
-              <div className="text-sm text-text-muted">{s.label}</div>
-            </div>
-          ))}
-        </div>
-
-        <h3 className="my-12 text-center text-2xl font-bold">What Makes Us Special</h3>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {specialFeatures.map((f) => (
-            <Card key={f.title}>
-              <div className="mb-4 text-3xl">{f.icon}</div>
-              <h3 className="mb-2 text-lg font-bold">{f.title}</h3>
-              <p className="text-text-muted">{f.description}</p>
-            </Card>
-          ))}
-        </div>
-
-        <h3 className="my-12 text-center text-2xl font-bold">
-          Student Stories{' '}
-          <span className="ml-2 inline-block rounded-full border border-dashed border-accent bg-accent-soft px-3 py-1 align-middle text-xs font-semibold text-accent-dark">
-            placeholder quotes — reuse w/ permission or replace
-          </span>
-        </h3>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {testimonials.map((t) => (
-            <Card key={t.name} className="text-left">
-              <div className="mb-2 text-2xl">💬</div>
-              <p className="mb-4 italic">"{t.quote}"</p>
-              <p className="text-sm font-bold">
-                {t.name} <span className="font-normal text-text-muted">· {t.meta}</span>
-              </p>
-            </Card>
-          ))}
-        </div>
-
-        <h3 className="my-12 text-center text-2xl font-bold">
-          Our Speakers{' '}
-          <span className="ml-2 inline-block rounded-full border border-dashed border-accent bg-accent-soft px-3 py-1 align-middle text-xs font-semibold text-accent-dark">
-            TBA for 2026
-          </span>
-        </h3>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {speakers.map((s, i) => (
-            <Card key={i} className="flex items-center gap-4 text-left">
-              <img
-                src="https://placehold.co/160x160?text=Speaker"
-                alt="Speaker headshot placeholder"
-                className="h-16 w-16 flex-shrink-0 rounded-full object-cover"
-              />
-              <div>
-                <h4 className="font-bold">{s.name}</h4>
-                <p className="text-sm text-text-muted">{s.job}</p>
+        <h3 className="mb-6 text-center text-2xl font-bold">By the Numbers</h3>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {stats.map((s, i) => (
+            <Reveal key={s.label} index={i}>
+              <div
+                className="relative h-full overflow-hidden rounded-md border border-steel-dark/50 p-6 text-center text-white shadow-card"
+                style={{
+                  background:
+                    'linear-gradient(155deg, var(--color-steel-dark) 0%, var(--color-steel) 45%, var(--color-steel-dark) 100%)',
+                }}
+              >
+                <span aria-hidden="true" className="absolute left-2 top-2 h-1.5 w-1.5 rounded-full bg-steel-light/80 shadow-[inset_0_1px_1px_rgba(0,0,0,0.5)]" />
+                <span aria-hidden="true" className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-steel-light/80 shadow-[inset_0_1px_1px_rgba(0,0,0,0.5)]" />
+                <span aria-hidden="true" className="absolute bottom-2 left-2 h-1.5 w-1.5 rounded-full bg-steel-light/80 shadow-[inset_0_1px_1px_rgba(0,0,0,0.5)]" />
+                <span aria-hidden="true" className="absolute bottom-2 right-2 h-1.5 w-1.5 rounded-full bg-steel-light/80 shadow-[inset_0_1px_1px_rgba(0,0,0,0.5)]" />
+                <ContentIcon icon={s.icon} className="relative mx-auto mb-2 h-6 w-6 text-caution" />
+                <div className="relative font-heading text-2xl font-bold">{s.number}</div>
+                <div className="relative text-sm text-white/70">{s.label}</div>
               </div>
-            </Card>
+            </Reveal>
           ))}
         </div>
       </div>

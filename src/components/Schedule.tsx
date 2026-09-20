@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import SectionHeader from './ui/SectionHeader'
 import Pill from './ui/Pill'
+import Reveal from './ui/Reveal'
+import ToggleGroup from './ui/ToggleGroup'
+import { ContentIcon } from './ui/icons'
 import { eventTypeLabels, scheduleDay1, scheduleDay2 } from '../data/content'
 
 const days = [
-  { key: 'day1', label: 'Day 1', date: 'Oct 24 (placeholder)', events: scheduleDay1 },
-  { key: 'day2', label: 'Day 2', date: 'Oct 25 (placeholder)', events: scheduleDay2 },
+  { key: 'day1', label: 'Day 1', date: 'Oct 24 (TBC)', events: scheduleDay1 },
+  { key: 'day2', label: 'Day 2', date: 'Oct 25 (TBC)', events: scheduleDay2 },
 ] as const
 
 export default function Schedule() {
@@ -15,47 +18,30 @@ export default function Schedule() {
   return (
     <section id="schedule" className="px-6 py-20">
       <div className="mx-auto max-w-[1140px]">
-        <SectionHeader eyebrow="Schedule" title="Event Schedule" />
+        <SectionHeader title="Event Schedule" />
 
-        <div className="mx-auto mb-10 max-w-2xl rounded-lg border-l-4 border-accent bg-bg-alt p-6 text-sm text-text-muted">
-          <p>
-            The complete schedule with specific times, locations, and details will be shared with
-            registered participants closer to the event. Times below are placeholders from last
-            year's format.
-          </p>
-        </div>
+        <ToggleGroup
+          options={days.map((d) => ({ key: d.key, label: d.label, caption: d.date }))}
+          active={active}
+          onChange={setActive}
+        />
 
-        <div className="mb-10 flex flex-wrap justify-center gap-2">
-          {days.map((day) => (
-            <button
-              key={day.key}
-              onClick={() => setActive(day.key)}
-              className={`flex flex-col items-center rounded-full px-5 py-3 font-heading font-semibold ${
-                active === day.key ? 'bg-accent text-white' : 'bg-bg-alt text-text-muted'
-              }`}
-            >
-              <span>{day.label}</span>
-              <span className="text-xs opacity-70">{day.date}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="relative mx-auto max-w-[780px] border-l-2 border-border pl-10">
+        <div className="relative mx-auto max-w-[780px] border-l-2 border-border pl-8">
           {activeDay.events.map((event, i) => (
-            <div key={i} className="relative mb-8">
-              <div className="absolute -left-[2.95rem] top-0 flex h-10 w-10 items-center justify-center rounded-full bg-accent text-lg text-white">
-                {event.icon}
+            <Reveal key={event.title} index={i} y={12} className="relative mb-3 last:mb-0">
+              <div className="absolute -left-[2.35rem] top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-bg bg-accent text-caution-ink">
+                <ContentIcon icon={event.icon} className="h-4 w-4" weight="fill" />
               </div>
-              <div className="rounded-md border border-border bg-surface p-5">
-                <div className="mb-2 flex flex-wrap gap-2">
+              <div className="rounded-md border border-border bg-surface p-3">
+                <div className="mb-1 flex flex-wrap gap-2">
                   <Pill>{event.time}</Pill>
                   <Pill variant="neutral">{eventTypeLabels[event.type]}</Pill>
                   {event.required && <Pill variant="danger">Required</Pill>}
                 </div>
-                <h4 className="mb-1 text-lg font-bold">{event.title}</h4>
+                <h4 className="font-bold">{event.title}</h4>
                 <p className="text-sm text-text-muted">{event.description}</p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

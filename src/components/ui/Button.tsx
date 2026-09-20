@@ -4,9 +4,9 @@ type Variant = 'primary' | 'secondary' | 'outline'
 type Size = 'sm' | 'md' | 'lg'
 
 const variantClasses: Record<Variant, string> = {
-  primary: 'bg-accent text-white hover:bg-accent-dark',
-  secondary: 'bg-bg-alt text-text hover:bg-border',
-  outline: 'bg-transparent border-2 border-text text-text hover:bg-bg-alt',
+  primary: 'bg-accent border-accent text-caution-ink hover:bg-accent-dark hover:border-accent-dark',
+  secondary: 'bg-surface border-border text-text hover:border-text',
+  outline: 'bg-transparent border-text text-text hover:bg-bg-alt',
 }
 
 const sizeClasses: Record<Size, string> = {
@@ -16,13 +16,15 @@ const sizeClasses: Record<Size, string> = {
 }
 
 const base =
-  'inline-block font-heading font-bold rounded-full border-2 border-transparent text-center transition-transform duration-150 ease-out hover:-translate-y-0.5'
+  'inline-block whitespace-nowrap font-heading font-bold rounded-full border-2 text-center transition-[transform,background-color,border-color] duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97]'
 
 interface CommonProps {
   variant?: Variant
   size?: Size
   className?: string
   children: ReactNode
+  /** Renders a non-interactive, visually muted button (e.g. "opens later") instead of a dead link. */
+  disabled?: boolean
 }
 
 type ButtonAsLink = CommonProps &
@@ -33,17 +35,27 @@ type ButtonAsButton = CommonProps &
 
 type ButtonProps = ButtonAsLink | ButtonAsButton
 
+const disabledClasses = 'pointer-events-none opacity-50 grayscale-[0.3] hover:translate-y-0'
+
 export default function Button({
   variant = 'primary',
   size = 'md',
   className = '',
+  disabled = false,
   children,
   ...rest
 }: ButtonProps) {
-  const classes = `${base} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`
+  const classes = `${base} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? disabledClasses : ''} ${className}`
 
   if ('href' in rest && rest.href !== undefined) {
     const { href, ...anchorRest } = rest as AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }
+    if (disabled) {
+      return (
+        <span className={classes} aria-disabled="true">
+          {children}
+        </span>
+      )
+    }
     return (
       <a href={href} className={classes} {...anchorRest}>
         {children}
@@ -53,7 +65,7 @@ export default function Button({
 
   const buttonRest = rest as ButtonHTMLAttributes<HTMLButtonElement>
   return (
-    <button className={classes} {...buttonRest}>
+    <button className={classes} disabled={disabled} {...buttonRest}>
       {children}
     </button>
   )

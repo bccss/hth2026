@@ -74,63 +74,44 @@ export const speakers: Speaker[] = [
   { name: 'Speaker Name TBA', job: 'Job Title @ Company' },
 ]
 
-export interface Track {
-  icon: string
+// The two dig-site lanes — SPEC.md section 3: BC Track (Boston College
+// students only) and Main Track (open to all hackers), identical weight,
+// fed into a single <TrackCard>-style component with no per-track styling.
+export interface TrackLane {
+  fossilEmoji: string
+  fossilLabel: string
   title: string
+  sublabel: string
   description: string
-  ghost?: boolean
+  prizes: { place: string; amount: string }[]
 }
 
-export const tracks: Track[] = [
-  { icon: '🌱', title: 'Social Good & Sustainability', description: 'Build tech that tackles environmental sustainability, community impact, or civic good.' },
-  { icon: '🏥', title: 'Health & Wellness', description: 'Design solutions that improve mental health, accessibility, or physical wellbeing.' },
-  { icon: '💰', title: 'FinTech & Future of Work', description: 'Reimagine how people manage money, find jobs, or collaborate in the modern workplace.' },
-  { icon: '🎓', title: 'Rookie Track', description: 'For first-time hackers. Extra mentorship and a dedicated prize category — no experience needed.' },
-  { icon: '🛠️', title: 'Open Innovation', description: "Have an idea that doesn't fit elsewhere? Build anything you want — the sky's the limit." },
-  { icon: '🚧', title: 'Sponsor Track', description: 'Reserved slot for a headline sponsor challenge — details announced as sponsors confirm.', ghost: true },
+export const trackLanes: TrackLane[] = [
+  {
+    fossilEmoji: '🦅',
+    fossilLabel: 'eagle fossil',
+    title: 'BC Track',
+    sublabel: 'Boston College students',
+    description: '[Description, 2 lines]',
+    prizes: [
+      { place: '1st', amount: '[$]' },
+      { place: '2nd', amount: '[$]' },
+      { place: '3rd', amount: '[$]' },
+    ],
+  },
+  {
+    fossilEmoji: '🦖',
+    fossilLabel: 'dinosaur fossil',
+    title: 'Main Track',
+    sublabel: 'Open to all hackers',
+    description: '[Description, 2 lines]',
+    prizes: [
+      { place: '1st', amount: '[$]' },
+      { place: '2nd', amount: '[$]' },
+      { place: '3rd', amount: '[$]' },
+    ],
+  },
 ]
-
-export type EventType = 'ceremony' | 'coding' | 'networking' | 'meal' | 'workshop' | 'speaker' | 'presentation' | 'judging'
-
-export interface ScheduleEvent {
-  icon: string
-  time: string
-  type: EventType
-  title: string
-  description: string
-  required?: boolean
-}
-
-export const scheduleDay1: ScheduleEvent[] = [
-  { icon: '🎯', time: '11:30 AM – 12:00 PM', type: 'ceremony', title: 'Registration & Check-in', description: "Check in and get ready for what's to come!", required: true },
-  { icon: '🚀', time: '12:00 – 12:30 PM', type: 'ceremony', title: 'Opening Ceremony', description: 'Get acquainted with the event and the team.', required: true },
-  { icon: '💻', time: '12:30 PM', type: 'coding', title: 'Hacking Begins!', description: 'Start working on your projects!', required: true },
-  { icon: '🤝', time: '12:30 – 1:00 PM', type: 'networking', title: 'Team Formation', description: 'Perfect opportunity to find your dream team.' },
-  { icon: '🍕', time: '1:00 – 2:00 PM', type: 'meal', title: 'Lunch', description: 'Take a break and recharge.' },
-  { icon: '📚', time: '2:00 – 3:00 PM', type: 'workshop', title: 'Beginner Coding Workshop', description: 'Learn how to code with a beginner-friendly workshop.' },
-  { icon: '🧠', time: '4:00 – 5:00 PM', type: 'speaker', title: 'Speaker Event', description: 'Gain insight from industry leaders.' },
-  { icon: '🍽️', time: '7:00 – 8:00 PM', type: 'meal', title: 'Dinner', description: 'Grab some food and recharge.' },
-  { icon: '🌙', time: '8:00 – 9:00 PM', type: 'networking', title: 'Game Night', description: 'CS students have fun too — join for some games!' },
-]
-
-export const scheduleDay2: ScheduleEvent[] = [
-  { icon: '☕', time: '10:00 – 11:00 AM', type: 'meal', title: 'Morning Kickoff & Breakfast', description: 'Start your final day strong!' },
-  { icon: '⚡', time: '12:30 PM', type: 'coding', title: 'Hacking Ends!', description: 'Last-minute push — submit your work.' },
-  { icon: '📤', time: '12:45 – 1:30 PM', type: 'presentation', title: 'Project Demos', description: 'See what everyone has been working on.', required: true },
-  { icon: '⚖️', time: '1:30 – 2:15 PM', type: 'judging', title: 'Judging & Deliberation', description: 'While judges deliberate, relax and network!' },
-  { icon: '🏆', time: '2:30 PM', type: 'ceremony', title: 'Awards Ceremony', description: 'Celebrate winners and wrap up an amazing hackathon!', required: true },
-]
-
-export const eventTypeLabels: Record<EventType, string> = {
-  ceremony: 'Ceremony',
-  coding: 'Coding',
-  networking: 'Networking',
-  meal: 'Meal',
-  workshop: 'Workshop',
-  speaker: 'Speaker',
-  presentation: 'Presentation',
-  judging: 'Judging',
-}
 
 export type FaqCategory = 'general' | 'registration' | 'event' | 'technical'
 
@@ -163,47 +144,39 @@ export const faqs: Faq[] = [
   { category: 'technical', question: 'What if I have a question during the event?', answer: 'We have mentors available 24/7 during the hackathon, plus our organizing team is always around to help!' },
 ]
 
-export interface SponsorTier {
-  name: string
-  price: string
-  description: string
-  benefits: string[]
-  featured?: boolean
+// Tentative run-of-show (RTS) — times/titles still subject to change.
+export interface ScheduleEvent {
+  time: string
+  title: string
+  note?: string
 }
 
-export const sponsorTiers: SponsorTier[] = [
+export const scheduleDays: { key: string; label: string; day: string; events: ScheduleEvent[] }[] = [
   {
-    name: 'Bronze',
-    price: '$250',
-    description: 'Perfect for startups and smaller companies looking to support student innovation.',
-    benefits: ['Small logo placement', 'Pre-event email', 'Send-a-Rep'],
+    key: 'day1',
+    label: 'Day 1',
+    day: 'Saturday',
+    events: [
+      { time: '11:30 AM', title: 'Board arrives' },
+      { time: '12:00 PM', title: 'Kickoff & intro' },
+      { time: '1:00 PM', title: 'Lunch' },
+      { time: '2:30 PM', title: 'Technical workshop', note: 'Tech team' },
+      { time: '4:00 PM', title: 'Panel event', note: 'Events team' },
+      { time: '6:00 PM', title: 'Dinner' },
+      { time: '8:00 PM', title: 'Social event', note: 'Marketing team' },
+      { time: '11:00 PM', title: 'Doors close', note: 'TBD' },
+    ],
   },
   {
-    name: 'Silver',
-    price: '$500',
-    description: 'Ideal for growing companies wanting meaningful student engagement.',
-    benefits: ['Everything in Bronze', 'Host an affiliate workshop', 'Post-hackathon recruiting email', 'Table during lunch/dinner'],
+    key: 'day2',
+    label: 'Day 2',
+    day: 'Sunday',
+    events: [
+      { time: '9:00 AM', title: 'Breakfast' },
+      { time: '10:30 AM', title: 'Board arrives', note: 'Latest' },
+      { time: '11:00 AM', title: 'Submit projects' },
+      { time: '11:15 AM', title: 'Judging', note: 'Until 12:00 PM' },
+      { time: '~12:30 PM', title: 'Awards' },
+    ],
   },
-  {
-    name: 'Gold',
-    price: '$1,000',
-    description: 'Great for companies seeking premium visibility and speaking opportunities.',
-    benefits: ['Everything in Silver', 'Speak at Opening Ceremony'],
-  },
-  {
-    name: 'Diamond',
-    price: '$3,000',
-    description: 'Premium sponsorship for maximum impact and comprehensive student access.',
-    benefits: ['Everything in Gold', 'Host your own competition', 'Pre-hackathon coffee chats', 'Sponsor lounge'],
-    featured: true,
-  },
-]
-
-export const whySponsor: Feature[] = [
-  { icon: '🌍', title: 'Social Impact Focus', description: 'Our hackathon targets social good — environmental sustainability, mental health, and community impact.' },
-  { icon: '🎓', title: 'Holistic Development', description: 'Boston College\'s "cura personalis" ethos means diverse, multifaceted, creative thinkers.' },
-  { icon: '🤝', title: 'Diversity Hub', description: 'We foster an inclusive environment — partnering with us showcases your commitment to diversity.' },
-  { icon: '⚖️', title: 'Values-Driven Innovation', description: 'Support students passionate about making a meaningful difference.' },
-  { icon: '🧠', title: 'Liberal Arts Advantage', description: "Interdisciplinary perspectives from across BC's diverse academic programs." },
-  { icon: '💼', title: 'Strategic Partnership', description: 'Connect with the next generation of purpose-driven innovators.' },
 ]

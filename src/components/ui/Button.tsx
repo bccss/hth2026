@@ -4,9 +4,12 @@ type Variant = 'primary' | 'secondary' | 'outline'
 type Size = 'sm' | 'md' | 'lg'
 
 const variantClasses: Record<Variant, string> = {
-  primary: 'bg-accent text-white hover:bg-accent-dark',
-  secondary: 'bg-bg-alt text-text hover:bg-border',
-  outline: 'bg-transparent border-2 border-text text-text hover:bg-bg-alt',
+  // The one filled-yellow control per STYLE_GUIDE.md — construction theme's
+  // primary CTA everywhere (Register/Apply), hard offset shadow, no blur.
+  primary:
+    'rounded-none border-asphalt bg-caution text-asphalt shadow-hard hover:bg-caution-hi hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-hard-active',
+  secondary: 'rounded-full border-transparent bg-bg-alt text-text hover:bg-border',
+  outline: 'rounded-full border-2 border-text bg-transparent text-text hover:bg-bg-alt',
 }
 
 const sizeClasses: Record<Size, string> = {
@@ -16,7 +19,7 @@ const sizeClasses: Record<Size, string> = {
 }
 
 const base =
-  'inline-block font-heading font-bold rounded-full border-2 border-transparent text-center transition-transform duration-150 ease-out hover:-translate-y-0.5'
+  'inline-block font-heading font-bold uppercase tracking-wide border-2 text-center transition-transform duration-150 ease-out'
 
 interface CommonProps {
   variant?: Variant

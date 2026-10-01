@@ -1,103 +1,87 @@
-import Card from './ui/Card'
-import SectionHeader from './ui/SectionHeader'
-import { aboutFeatures, specialFeatures, speakers, stats, testimonials } from '../data/content'
+import { speakers, stats } from '../data/content'
+
+// Plank surface — pine fill, walnut border + "nail dot" corners, 0 radius
+// (STYLE_GUIDE.md section 3/4, wood skin). Shared by every block in this
+// section so About reads as a bench of planked panels.
+const plank = 'relative rounded-none border-[3px] border-walnut bg-pine p-5 text-plank-text tall:p-7'
+const plankDark = 'relative rounded-none border-[3px] border-walnut bg-walnut p-5 text-cream tall:p-7'
+const nailDots = (
+  <>
+    <span aria-hidden="true" className="absolute left-2 top-2 h-1.5 w-1.5 rounded-full bg-walnut" />
+    <span aria-hidden="true" className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-walnut" />
+  </>
+)
+
+// Three headline stats for the pegboard — the full placeholder set lives in
+// content.ts for reuse elsewhere; this section only has room for a trio.
+const headlineStats = [stats[0], stats[2], stats[3]]
 
 export default function About() {
   return (
-    <section id="about" className="px-6 py-20">
-      <div className="mx-auto max-w-[1140px]">
-        <SectionHeader
-          eyebrow="About"
-          title="What is Hack the Heights?"
-          lead={
-            <>
-              Boston College's annual hackathon where innovation meets community. This 24-hour
-              coding marathon brings together creative minds to build tech solutions, learn new
-              skills, and collaborate on impactful projects. Placeholder copy — adapt for the 2026
-              construction theme (e.g. "building the future, one block at a time").
-            </>
-          }
-        />
-
-        <Card highlight className="mb-12">
-          <h3 className="mb-3 text-xl font-bold">Our Mission</h3>
-          <p className="text-text-muted">
-            Hack the Heights exists to democratize innovation at Boston College. We believe great
-            ideas can come from anyone, regardless of background or experience level. Our
-            hackathon is a judgment-free zone where students can experiment, learn, fail, and
-            succeed together. <em>(Placeholder — reuse or rewrite for 2026.)</em>
+    <section
+      id="about"
+      className="relative flex min-h-[calc(100vh-56px)] md:h-[calc(100vh-64px)] md:min-h-0 flex-col overflow-hidden bg-soil px-6 py-6 sm:py-10"
+      style={{
+        backgroundImage:
+          'radial-gradient(circle at 50% -10%, rgba(255,220,140,.35), transparent 55%), radial-gradient(circle, rgba(0,0,0,.35) 0 3px, transparent 4px)',
+        backgroundSize: 'auto, 38px 38px',
+      }}
+    >
+      <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col justify-center gap-4 sm:gap-6 md:overflow-hidden tall:gap-8">
+        <div
+          className={`${plank} mx-auto w-full max-w-5xl text-center`}
+          style={{ transform: 'rotate(-0.8deg)' }}
+        >
+          {nailDots}
+          <p className="mb-2 font-heading text-sm font-bold uppercase tracking-widest text-rust tall:text-base">About</p>
+          <h2 className="mb-3 text-3xl font-bold tracking-tight sm:text-4xl tall:text-5xl">What is Hack the Heights?</h2>
+          <p className="mx-auto max-w-3xl text-plank-text-muted tall:text-xl">
+            Boston College's annual hackathon where innovation meets community. This 24-hour coding
+            marathon brings together creative minds to build tech solutions, learn new skills, and
+            collaborate on impactful projects — building the future, one block at a time.
           </p>
-        </Card>
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {aboutFeatures.map((f) => (
-            <Card key={f.title}>
-              <div className="mb-4 text-3xl">{f.icon}</div>
-              <h3 className="mb-2 text-lg font-bold">{f.title}</h3>
-              <p className="text-text-muted">{f.description}</p>
-            </Card>
-          ))}
         </div>
 
-        <h3 className="my-12 text-center text-2xl font-bold">By the Numbers</h3>
-        <div className="grid grid-cols-2 gap-6 text-center sm:grid-cols-3 lg:grid-cols-6">
-          {stats.map((s) => (
-            <div key={s.label} className="rounded-md bg-bg-alt p-6">
-              <div className="mb-2 text-2xl">{s.icon}</div>
-              <div className="font-heading text-2xl font-bold text-accent">{s.number}</div>
-              <div className="text-sm text-text-muted">{s.label}</div>
+        <div className="grid grid-cols-3 gap-2 sm:gap-6">
+          {headlineStats.map((s, i) => (
+            <div
+              key={s.label}
+              className={`${plankDark} text-lg leading-tight max-sm:p-3 max-sm:text-xs tall:text-xl`}
+              style={{ transform: `rotate(${i % 2 === 0 ? -0.8 : 0.7}deg)` }}
+            >
+              <b className="font-heading text-2xl sm:text-3xl tall:text-5xl">{s.number}</b>
+              <br />
+              {s.label}
             </div>
           ))}
         </div>
 
-        <h3 className="my-12 text-center text-2xl font-bold">What Makes Us Special</h3>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {specialFeatures.map((f) => (
-            <Card key={f.title}>
-              <div className="mb-4 text-3xl">{f.icon}</div>
-              <h3 className="mb-2 text-lg font-bold">{f.title}</h3>
-              <p className="text-text-muted">{f.description}</p>
-            </Card>
-          ))}
+        <div
+          className={`${plank} mx-auto max-w-xs text-center font-heading text-xl font-bold uppercase tracking-wide tall:text-2xl`}
+          style={{ transform: 'rotate(0.7deg)' }}
+        >
+          {nailDots}
+          Speakers
         </div>
 
-        <h3 className="my-12 text-center text-2xl font-bold">
-          Student Stories{' '}
-          <span className="ml-2 inline-block rounded-full border border-dashed border-accent bg-accent-soft px-3 py-1 align-middle text-xs font-semibold text-accent-dark">
-            placeholder quotes — reuse w/ permission or replace
-          </span>
-        </h3>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {testimonials.map((t) => (
-            <Card key={t.name} className="text-left">
-              <div className="mb-2 text-2xl">💬</div>
-              <p className="mb-4 italic">"{t.quote}"</p>
-              <p className="text-sm font-bold">
-                {t.name} <span className="font-normal text-text-muted">· {t.meta}</span>
-              </p>
-            </Card>
-          ))}
-        </div>
-
-        <h3 className="my-12 text-center text-2xl font-bold">
-          Our Speakers{' '}
-          <span className="ml-2 inline-block rounded-full border border-dashed border-accent bg-accent-soft px-3 py-1 align-middle text-xs font-semibold text-accent-dark">
-            TBA for 2026
-          </span>
-        </h3>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-6">
           {speakers.map((s, i) => (
-            <Card key={i} className="flex items-center gap-4 text-left">
+            <div
+              key={i}
+              className={`${plank} flex items-center gap-4 text-left`}
+              style={{ transform: `rotate(${i % 2 === 0 ? -0.8 : 0.7}deg)` }}
+            >
+              {nailDots}
               <img
                 src="https://placehold.co/160x160?text=Speaker"
                 alt="Speaker headshot placeholder"
-                className="h-16 w-16 flex-shrink-0 rounded-full object-cover"
+                className="h-14 w-14 shrink-0 rounded-full border-[3px] border-walnut object-cover tall:h-20 tall:w-20"
               />
               <div>
-                <h4 className="font-bold">{s.name}</h4>
-                <p className="text-sm text-text-muted">{s.job}</p>
+                <h4 className="text-lg font-bold tall:text-xl">{s.name}</h4>
+                <p className="text-plank-text-muted">{s.job}</p>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </div>

@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+/* Wide AND tall enough to grow full-viewport sections without overflowing. */
+/* Hero content starts at the crane jib's underside (heroArt.tsx: jib bottom
+   at y=140 of a 1600x900 viewBox, xMidYMax slice), so cables can hang from it. */
+@utility hero-below-jib {
+  margin-top: calc(100vh - 64px - 765 * max(100vw / 1600, (100vh - 64px) / 900));
+}
+
+/* Hero content on md+ stops above the ground vehicles (ground 120 + vehicle
+   ~125 units tall + beam shadow, in heroArt's 1600x900 viewBox) so the title
+   beams never cover them. */
+@utility hero-above-vehicles {
+  padding-bottom: calc(255 * max(100vw / 1600, (100vh - 64px) / 900));
+}
+
+/* ...while the panel+excavator column drops back down onto the grass line. */
+@utility hero-on-ground {
+  margin-bottom: calc((116 - 255) * max(100vw / 1600, (100vh - 64px) / 900));
+}
+
+@custom-variant tall (@media (min-width: 1024px) and (min-height: 820px));
+
 /* ============================================================
    Design tokens — SINGLE SOURCE OF TRUTH for color, font, radius,
    and shadow. See /DESIGN.md before adding or changing a value
@@ -29,17 +50,67 @@
   --color-danger: #b42323;
   --color-danger-soft: #fdeaea;
 
+  /* ----------------------------------------------------------------
+     Construction theme — "build high by digging deep" (STYLE_GUIDE.md
+     section 1). These are the real tokens sections reskin against;
+     the neutral/accent tokens above stay as-is for sections that
+     haven't been rebuilt yet (see DESIGN.md — nothing else changes
+     until a component starts reading these).
+     ---------------------------------------------------------------- */
+  --color-caution: #ffc20e;
+  --color-caution-hi: #ffd54a;
+
+  --color-asphalt: #16181c;
+  --color-steel: #3a434c;
+  --color-steel-lt: #c9d0d6;
+
+  --color-sky: #8fcff5;
+  --color-sky-lt: #ddf1fc;
+  --color-sky-deep: #1f6fb2;
+
+  --color-grass: #5e8c3a;
+  --color-soil: #6b4a2f;
+  --color-sand: #c49a6c;
+  --color-rust: #8a3a16;
+
+  --color-pine: #e9c99a;
+  --color-walnut: #5a3a22;
+  --color-plank-text: #2b1b0e;
+  --color-plank-text-muted: #4a3320;
+  --color-cream: #fff4e0;
+
+  --color-stone: #d9d4ca;
+  --color-stone-border: #57524a;
+  --color-stone-text: #1b1a17;
+  --color-stone-text-muted: #443f37;
+
+  --color-pipe-bg: #1e2223;
+  --color-pipe: #2b3031;
+  --color-pipe-text: #f2f4f4;
+  --color-water: #a9cfc6;
+
+  --color-bedrock: #1f2228;
+  --color-bedrock-text: #e8eaed;
+  --color-bedrock-text-muted: #a9b0b8;
+
   /* Typography */
   --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Anton', Impact, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
   /* Radius (overrides Tailwind defaults so rounded-sm/md/lg match our scale) */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-stone: 10px; /* stone-skin slabs/cards (STYLE_GUIDE.md section 3) */
 
   /* Shadow */
   --shadow-card: 0 12px 24px rgba(0, 0, 0, 0.08);
+  /* Hard offset shadows — construction theme's flat "cut paper" look, no blur */
+  --shadow-hard: 4px 4px 0 0 #16181c;
+  --shadow-hard-hover: 5px 5px 0 0 #16181c;
+  --shadow-hard-active: 1px 1px 0 0 #16181c;
 }
 
 @layer base {
@@ -51,5 +122,20 @@
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-bold;
+  }
+
+  /* STYLE_GUIDE.md section 4 — focus ring visible on any background */
+  :focus-visible {
+    outline: 3px solid var(--color-caution);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--color-asphalt);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }

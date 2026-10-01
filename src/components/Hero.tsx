@@ -36,15 +36,16 @@ function Countdown() {
 
 // Steel-beam sign — wide steel plate, thick ink border, faint diagonal
 // sheen, big white caps centered. Three of these make up the h1.
-function Beam({ rotate = 0, className = '', children }: { rotate?: number; className?: string; children: string }) {
+function Beam({ rotate = 0, delay = 0, className = '', children }: { rotate?: number; delay?: number; className?: string; children: string }) {
   return (
     <span
       aria-hidden="true"
       style={{
         transform: `rotate(${rotate}deg)`,
+        ['--d' as string]: `${delay}ms`,
         backgroundImage: 'repeating-linear-gradient(135deg, transparent 0 60px, rgba(255,255,255,.07) 60px 62px)',
       }}
-      className={`block border-[5px] border-asphalt bg-steel py-2 text-center font-display text-6xl uppercase tracking-widest text-white shadow-[0_8px_0_rgba(22,24,28,.25)] tall:py-3 tall:text-7xl [@media(min-width:1280px)_and_(min-height:820px)]:text-8xl ${className}`}
+      className={`hth-beam block border-[5px] border-asphalt bg-steel py-2 text-center font-display text-6xl uppercase tracking-widest text-white shadow-[0_8px_0_rgba(22,24,28,.25)] tall:py-3 tall:text-7xl [@media(min-width:1280px)_and_(min-height:820px)]:text-8xl ${className}`}
     >
       {children}
     </span>
@@ -105,14 +106,14 @@ export default function Hero() {
           <span aria-hidden="true" className="absolute bottom-[10%] left-[20%] top-0 w-[3px] bg-asphalt md:-top-[100vh]" />
           <span aria-hidden="true" className="absolute bottom-[10%] left-[72%] top-0 w-[3px] bg-asphalt md:-top-[100vh]" />
           <Beam className="w-[92%]">Hack</Beam>
-          <Beam rotate={-3} className="ml-[12%] w-[80%]">
+          <Beam rotate={-3} delay={140} className="ml-[12%] w-[80%]">
             The
           </Beam>
-          <Beam>Heights</Beam>
+          <Beam delay={280}>Heights</Beam>
         </h1>
 
         {/* Panel held up by the excavator; column bottom sits on the grass on md+. */}
-        <div className="flex w-full max-w-sm shrink-0 flex-col items-center md:hero-on-ground md:self-end">
+        <div className="hth-rise flex w-full max-w-sm shrink-0 flex-col items-center md:hero-on-ground md:self-end">
           <InfoPanel />
           <LiftingExcavator className="-mt-0.5 hidden h-[18vh] w-auto tall:h-[min(24vh,220px)] md:block" />
         </div>

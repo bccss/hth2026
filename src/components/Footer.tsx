@@ -77,8 +77,8 @@ export default function Footer() {
         <div>
           <h2 className={`mb-8 font-display text-5xl uppercase tracking-wide text-caution md:text-6xl ${carved}`}>FAQ</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {groups.map((g) => (
-              <div key={g.key} className={`${slab} p-6`}>
+            {groups.map((g, i) => (
+              <div key={g.key} data-reveal style={{ ['--d' as string]: `${i * 100}ms` }} className={`${slab} p-6`}>
                 <h3 className="mb-3 inline-block rounded-sm border border-black/60 bg-black/30 px-2 py-1 font-mono text-sm font-extrabold uppercase tracking-widest text-bedrock-text-muted shadow-[inset_0_1px_2px_rgba(0,0,0,.6)]">{g.label}</h3>
                 {faqs
                   .filter((f) => f.category === g.key)
@@ -90,7 +90,7 @@ export default function Footer() {
                           +
                         </span>
                       </summary>
-                      <p className="pt-2 text-base leading-relaxed text-bedrock-text-muted">{faq.answer}</p>
+                      <p className="hth-answer pt-2 text-base leading-relaxed text-bedrock-text-muted">{faq.answer}</p>
                     </details>
                   ))}
               </div>
@@ -100,7 +100,7 @@ export default function Footer() {
 
         <div>
           <h2 className={`mb-8 font-display text-5xl uppercase tracking-wide text-caution md:text-6xl ${carved}`}>Contact</h2>
-          <div className="flex flex-col gap-4">
+          <div data-reveal style={{ ['--d' as string]: '200ms' }} className="flex flex-col gap-4">
             {contacts.map((c) => (
               <a
                 key={c.label}

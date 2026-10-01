@@ -78,8 +78,7 @@ export const speakers: Speaker[] = [
 // students only) and Main Track (open to all hackers), identical weight,
 // fed into a single <TrackCard>-style component with no per-track styling.
 export interface TrackLane {
-  fossilEmoji: string
-  fossilLabel: string
+  fossil: 'eagle' | 'trex'
   title: string
   sublabel: string
   description: string
@@ -88,8 +87,7 @@ export interface TrackLane {
 
 export const trackLanes: TrackLane[] = [
   {
-    fossilEmoji: '🦅',
-    fossilLabel: 'eagle fossil',
+    fossil: 'eagle',
     title: 'BC Track',
     sublabel: 'Boston College students',
     description: '[Description, 2 lines]',
@@ -100,8 +98,7 @@ export const trackLanes: TrackLane[] = [
     ],
   },
   {
-    fossilEmoji: '🦖',
-    fossilLabel: 'dinosaur fossil',
+    fossil: 'trex',
     title: 'Main Track',
     sublabel: 'Open to all hackers',
     description: '[Description, 2 lines]',

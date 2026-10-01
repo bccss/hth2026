@@ -30,7 +30,7 @@ const WOOD_LT = '#8A6240'
 function Sun() {
   return (
     <g aria-hidden="true">
-      <circle cx={150} cy={120} r={125} fill="#FFF3B0" opacity={0.35} />
+      <circle cx={150} cy={120} r={125} fill="#FFF3B0" className="hth-pulse" />
       <circle cx={150} cy={120} r={100} fill="#FFF0A8" opacity={0.5} />
       <circle cx={150} cy={120} r={78} fill="#FCE79A" />
     </g>
@@ -47,9 +47,11 @@ function Birds() {
     [330, 330, 0.7],
   ]
   return (
-    <g aria-hidden="true" fill="none" stroke={INK} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
-      {birds.map(([x, y, k]) => (
-        <path key={x} transform={`translate(${x} ${y}) scale(${k})`} d="M-14 0q7-8 14 0q7-8 14 0" />
+    <g aria-hidden="true" fill="none" stroke={INK} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" className="hth-drift" style={{ ['--dur' as string]: '14s' }}>
+      {birds.map(([x, y, k], i) => (
+        <g key={x} transform={`translate(${x} ${y}) scale(${k})`}>
+          <path d="M-14 0q7-8 14 0q7-8 14 0" className="hth-flap" style={{ animationDelay: `${i * -0.23}s` }} />
+        </g>
       ))}
     </g>
   )
@@ -57,10 +59,13 @@ function Birds() {
 
 function Cloud({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   return (
-    <g aria-hidden="true" transform={`translate(${x} ${y}) scale(${scale})`} className="fill-white">
+    // outer <g> drifts (CSS translate), inner keeps its placement transform
+    <g aria-hidden="true" className="hth-drift" style={{ ['--dur' as string]: `${18 + (x % 7) * 3}s` }}>
+      <g transform={`translate(${x} ${y}) scale(${scale})`} className="fill-white">
       <ellipse cx={0} cy={0} rx={55} ry={26} />
       <ellipse cx={40} cy={-10} rx={38} ry={22} />
       <ellipse cx={-40} cy={-6} rx={34} ry={20} />
+      </g>
     </g>
   )
 }
